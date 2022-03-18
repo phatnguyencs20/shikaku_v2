@@ -1,1 +1,1 @@
-python main.py puzzles/puzzle6.txt
+python main.py puzzles/puzzle9.txt

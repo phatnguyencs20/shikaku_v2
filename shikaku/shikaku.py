@@ -36,6 +36,9 @@ class Shikaku:
         self.solving_time = 0
         print("Puzzle loaded.\n")
 
+    def draw(self, output_image):
+        self.initial_state.draw(self.regions, output_image)
+
     def solve(self, heuristic=False, info=False, output_image=None):
         if heuristic:
             pass
@@ -56,4 +59,4 @@ class Shikaku:
                 print("No solution.")
         
         if output_image is not None and self.goal_state is not None:
-            self.goal_state.draw(output_image)
+            self.goal_state.draw(self.regions, output_image)

@@ -68,8 +68,8 @@ class State():
         return State(state, self.actions[1:])
 
 
-    def draw(self, filename):
-        from PIL import Image, ImageDraw
+    def draw(self, regions, filename):
+        from PIL import Image, ImageFont, ImageDraw
         cell_size = 50
         cell_border = 2
 
@@ -84,7 +84,7 @@ class State():
         for i in range(len(self.state)):
             for j in range(len(self.state[i])):
                 if self.state[i][j] == -1:
-                    fill = (0, 0, 0)
+                    fill = (255, 255, 255)
                 else:
                     fill = Colors[self.state[i][j] % len(Colors)]
                 
@@ -93,5 +93,15 @@ class State():
                     ((j + 1) * cell_size - cell_border, (i + 1) * cell_size - cell_border)]),
                     fill=fill
                 )
+
+        font = ImageFont.truetype("arial.ttf", 30)
+        for x, y, area in regions:
+            draw.text(
+                (int(y * cell_size + 17), int(x * cell_size + 8)),
+                str(area),
+                font=font, 
+                fill='black', 
+                align='center'
+            )
         
         img.save(filename)
