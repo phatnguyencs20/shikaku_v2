@@ -1,3 +1,7 @@
+"""
+This file contains a dictionary to map sixteen numbers to their corresponding colors.
+"""
+
 Colors = {
     0: (85, 123, 131),
     1: (57, 174, 169),

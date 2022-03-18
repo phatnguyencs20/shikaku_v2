@@ -1,3 +1,7 @@
+"""
+This file contains the Shikaku class, which helps process the input file and redirect the solving process.
+"""
+
 from .state import State
 from .agent import blind_search
 import numpy as np
@@ -13,13 +17,13 @@ class Shikaku:
         self.height = len(contents)
         self.width = max(len(line.split()) for line in contents)
 
-        actions = []
+        self.regions = []
         for i in range(self.height):
             line = contents[i].split()
             for j in range(self.width):
                 try:
                     if re.match("[0-9]+", line[j]):
-                        actions.append((i, j, int(line[j])))
+                        self.regions.append((i, j, int(line[j])))
                     elif re.match("[#-]+", line[j]):
                         continue
                     else:
@@ -27,7 +31,7 @@ class Shikaku:
                 except IndexError:
                     raise Exception("Invalid puzzle!")
         
-        self.initial_state = State(np.full((self.height, self.width), -1), actions)
+        self.initial_state = State(np.full((self.height, self.width), -1), self.regions)
         self.goal_state = None
         self.solving_time = 0
         print("Puzzle loaded.\n")

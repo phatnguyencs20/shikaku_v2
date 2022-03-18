@@ -1,3 +1,7 @@
+"""
+This file contains the definition of a state, as well as a transition.
+"""
+
 from copy import deepcopy
 from queue import Queue
 from .colors import Colors
@@ -12,16 +16,27 @@ class State():
 
     @classmethod
     def get_rectangular_shape(cls, area):
+        """
+        This function receives an area as input and return a
+        generator of possible rectangular shapes.
+        """
         for i in range(1, area + 1):
             if area % i == 0:
                 yield i, area // i
 
 
     def is_goal(self):
-        return np.amin(self.state) > -1 and len(self.actions) == 0
+        """
+        A goal state is a state that all cells are filled.
+        """
+        return np.amin(self.state) > -1
 
 
     def next_states(self):
+        """
+        This function returns a generator of new states resulting from
+        taking an action.
+        """
         if len(self.actions) > 0:
             action = self.actions[0]
             for h, w in State.get_rectangular_shape(action[2]):
@@ -33,6 +48,10 @@ class State():
 
 
     def apply_to(self, height, width, x_coord, y_coord):
+        """
+        This function applies an action to a state (resulting a new one)
+        without modifying the old state.
+        """
         id = np.amax(self.state) + 1
         state = deepcopy(self.state)
 
