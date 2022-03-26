@@ -6,12 +6,33 @@ from copy import deepcopy
 from queue import Queue
 from .colors import Colors
 import numpy as np
-import re
+import math
 
 class State():
+    
     def __init__(self, state, actions):
         self.state = state
         self.actions = actions
+    
+
+    def __eq__(self, other):
+        return self.evaluate() == other.evaluate()
+    
+
+    def __gt__(self, other):
+        return self.evaluate() > other.evaluate()
+
+    
+    def __ge__(self, other):
+        return self == other or self > other
+
+
+    def __lt__(self, other):
+        return self.evaluate() < other.evaluate()
+
+    
+    def __le__(self, other):
+        return self == other or self < other
 
 
     @classmethod
@@ -23,6 +44,15 @@ class State():
         for i in range(1, area + 1):
             if area % i == 0:
                 yield i, area // i
+    
+
+    @classmethod
+    def number_of_possible_shapes(cls, area):
+        count = 0
+        for i in range(1, area + 1):
+            if area % i == 0:
+                count += 1
+        return count
 
 
     def is_goal(self):
@@ -30,6 +60,16 @@ class State():
         A goal state is a state that all cells are filled.
         """
         return np.amin(self.state) > -1
+
+
+    def evaluate(self):
+        if len(self.actions) == 0:
+            return 0
+            
+        score = math.inf
+        for i, j, area in self.actions:
+            score = min(score, State.number_of_possible_shapes(area))
+        return score
 
 
     def next_states(self):
@@ -94,14 +134,25 @@ class State():
                     fill=fill
                 )
 
-        font = ImageFont.truetype("arial.ttf", 30)
+        font1 = ImageFont.truetype("arial.ttf", 30)
+        font2 = ImageFont.truetype("arial.ttf", 25)
+
         for x, y, area in regions:
-            draw.text(
-                (int(y * cell_size + 17), int(x * cell_size + 8)),
-                str(area),
-                font=font, 
-                fill='black', 
-                align='center'
-            )
+            if area < 10:
+                draw.text(
+                    (y * cell_size + 17, x * cell_size + 8),
+                    str(area),
+                    font=font1, 
+                    fill='black', 
+                    align='center'
+                )
+            else:
+                draw.text(
+                    (y * cell_size + 10, x * cell_size + 11),
+                    str(area),
+                    font=font2,
+                    fill='black',
+                    align='center'
+                )
         
         img.save(filename)

@@ -3,7 +3,7 @@ This file contains the Shikaku class, which helps process the input file and red
 """
 
 from .state import State
-from .agent import blind_search
+from .agent import blind_search, heuristic_search
 import numpy as np
 import re
 import time
@@ -41,9 +41,14 @@ class Shikaku:
 
     def solve(self, heuristic=False, info=False, output_image=None):
         if heuristic:
-            pass
+            print("Solving using heuristic search...")
+            start_time = time.time()
+            self.goal_state = heuristic_search(self.initial_state)
+            end_time = time.time()
+            print("Solved!\n")
+            self.solving_time = end_time - start_time
         else:
-            print("Solving...")
+            print("Solving using blind search...")
             start_time = time.time()
             self.goal_state = blind_search(self.initial_state)
             end_time = time.time()
