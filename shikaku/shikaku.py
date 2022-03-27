@@ -59,7 +59,7 @@ class Shikaku:
             print("Solving time: ", self.solving_time)
             if self.goal_state is not None:
                 print("Solution found:")
-                print(self.goal_state.state)
+                #print(self.goal_state.state)
             else:
                 print("No solution.")
         

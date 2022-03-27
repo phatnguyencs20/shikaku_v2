@@ -3,7 +3,6 @@ This file contains the definition of a state, as well as a transition.
 """
 
 from copy import deepcopy
-from queue import Queue
 from .colors import Colors
 import numpy as np
 import math
@@ -13,6 +12,7 @@ class State():
     def __init__(self, state, actions):
         self.state = state
         self.actions = actions
+        self.evaluation = None
     
 
     def __eq__(self, other):
@@ -63,14 +63,18 @@ class State():
 
 
     def evaluate(self):
-        if len(self.actions) == 0:
-            return 0
-            
-        score = math.inf
-        for i, j, area in self.actions:
-            #score = min(score, State.number_of_possible_shapes(area))
-            score = min(score, (self.state == -1).sum())
-        return score
+        if self.evaluation is None:
+            if len(self.actions) == 0:
+                self.evaluation = 0
+                return self.evaluation
+                
+            score = math.inf
+            for i, j, area in self.actions:
+                #score = min(score, State.number_of_possible_shapes(area))
+                score = min(score, (self.state == -1).sum())
+            self.evaluation = score
+        return self.evaluation
+        
 
 
     def next_states(self):
