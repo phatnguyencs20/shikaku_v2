@@ -68,7 +68,8 @@ class State():
             
         score = math.inf
         for i, j, area in self.actions:
-            score = min(score, State.number_of_possible_shapes(area))
+            #score = min(score, State.number_of_possible_shapes(area))
+            score = min(score, (self.state == -1).sum())
         return score
 
 
@@ -85,6 +86,47 @@ class State():
                         new_state = self.apply_to(h, w, i + action[0], j + action[1])
                         if new_state is not None:
                             yield new_state
+    
+
+    @classmethod
+    def area_distance(cls, first_point, second_point):
+        """lambda"""
+        return math.abs(first_point[0] - second_point[0]) * math.abs(first_point[1] - second_point[1])
+
+    @classmethod
+    def left_adjacent(cls, first_point, second_point):
+        """Check if second_point is left adjacent to first_point"""
+        return(
+            first_point[0] == second_point[0] and
+            first_point[1] == second_point[1] + 1
+        )
+    
+
+    @classmethod
+    def right_adjacent(cls, first_point, second_point):
+        """Check if second_point is right adjacent to first_point"""
+        return(
+            first_point[0] == second_point[0] and
+            first_point[1] == second_point[1] - 1
+        )
+    
+
+    @classmethod
+    def top_adjacent(cls, first_point, second_point):
+        """Check if second_point is top adjacent to first_point"""
+        return(
+            first_point[1] == second_point[1] and
+            first_point[0] == second_point[0] + 1
+        )
+
+
+    @classmethod
+    def bottom_adjacent(cls, first_point, second_point):
+        """Check if second_point is bottom adjacent to first_point"""
+        return(
+            first_point[1] == second_point[1] and
+            first_point[0] == second_point[0] - 1
+        )
 
 
     def apply_to(self, height, width, x_coord, y_coord):
@@ -94,18 +136,22 @@ class State():
         """
         id = np.amax(self.state) + 1
         state = deepcopy(self.state)
+        unsolved = self.actions[1:]
 
         for i in range(x_coord + 1 - height, x_coord + 1):
             for j in range(y_coord + 1 - width, y_coord + 1):
-                try:
-                    if i >= 0 and j >= 0 and state[i][j] == -1:
-                        state[i][j] = id
-                    else:
+                    try:
+                        if i >= 0 and j >= 0 and state[i][j] == -1:
+                            state[i][j] = id
+                        else:
+                            return None
+                    except IndexError:
                         return None
-                except IndexError:
-                    return None
-        
-        return State(state, self.actions[1:])
+                        
+        for m, n, area in unsolved:
+            if state[m][n] != -1:
+                return None
+        return State(state, unsolved)
 
 
     def draw(self, regions, filename):
