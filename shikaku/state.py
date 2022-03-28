@@ -16,23 +16,19 @@ class State():
     
 
     def __eq__(self, other):
+        """
+        Rather than checking the equality between two states,
+        we are comparing their values against each other.
+        """
         return self.evaluate() == other.evaluate()
-    
-
-    def __gt__(self, other):
-        return self.evaluate() > other.evaluate()
-
-    
-    def __ge__(self, other):
-        return self == other or self > other
 
 
     def __lt__(self, other):
+        """
+        Rather than checking the equality between two states,
+        we are comparing their values against each other.
+        """
         return self.evaluate() < other.evaluate()
-
-    
-    def __le__(self, other):
-        return self == other or self < other
 
 
     @classmethod
@@ -44,15 +40,6 @@ class State():
         for i in range(1, area + 1):
             if area % i == 0:
                 yield i, area // i
-    
-
-    @classmethod
-    def number_of_possible_shapes(cls, area):
-        count = 0
-        for i in range(1, area + 1):
-            if area % i == 0:
-                count += 1
-        return count
 
 
     def is_goal(self):
@@ -63,18 +50,20 @@ class State():
 
 
     def evaluate(self):
+        """
+        Evaluate a particular state.
+        An evaluation to 0 is the best - goal state, while larger values mean worse.
+        """
         if self.evaluation is None:
             if len(self.actions) == 0:
+                #this is probably a goal state
+                #but still require double check for each cell.
                 self.evaluation = 0
                 return self.evaluation
-                
-            score = math.inf
-            for i, j, area in self.actions:
-                #score = min(score, State.number_of_possible_shapes(area))
-                score = min(score, (self.state == -1).sum())
-            self.evaluation = score
+            
+            #greedy algorithm: return the amount of not filled cells.
+            self.evaluation = (self.state == -1).sum()
         return self.evaluation
-        
 
 
     def next_states(self):
@@ -84,53 +73,13 @@ class State():
         """
         if len(self.actions) > 0:
             action = self.actions[0]
+
             for h, w in State.get_rectangular_shape(action[2]):
                 for i in range(h):
                     for j in range(w):
                         new_state = self.apply_to(h, w, i + action[0], j + action[1])
                         if new_state is not None:
                             yield new_state
-    
-
-    @classmethod
-    def area_distance(cls, first_point, second_point):
-        """lambda"""
-        return math.abs(first_point[0] - second_point[0]) * math.abs(first_point[1] - second_point[1])
-
-    @classmethod
-    def left_adjacent(cls, first_point, second_point):
-        """Check if second_point is left adjacent to first_point"""
-        return(
-            first_point[0] == second_point[0] and
-            first_point[1] == second_point[1] + 1
-        )
-    
-
-    @classmethod
-    def right_adjacent(cls, first_point, second_point):
-        """Check if second_point is right adjacent to first_point"""
-        return(
-            first_point[0] == second_point[0] and
-            first_point[1] == second_point[1] - 1
-        )
-    
-
-    @classmethod
-    def top_adjacent(cls, first_point, second_point):
-        """Check if second_point is top adjacent to first_point"""
-        return(
-            first_point[1] == second_point[1] and
-            first_point[0] == second_point[0] + 1
-        )
-
-
-    @classmethod
-    def bottom_adjacent(cls, first_point, second_point):
-        """Check if second_point is bottom adjacent to first_point"""
-        return(
-            first_point[1] == second_point[1] and
-            first_point[0] == second_point[0] - 1
-        )
 
 
     def apply_to(self, height, width, x_coord, y_coord):
@@ -138,9 +87,9 @@ class State():
         This function applies an action to a state (resulting a new one)
         without modifying the old state.
         """
-        id = np.amax(self.state) + 1
+        id = np.amax(self.state) + 1    #id of the new region being solved
         state = deepcopy(self.state)
-        unsolved = self.actions[1:]
+        unsolved = self.actions[1:]    #updating the list of remaining actions
 
         for i in range(x_coord + 1 - height, x_coord + 1):
             for j in range(y_coord + 1 - width, y_coord + 1):
@@ -148,17 +97,25 @@ class State():
                         if i >= 0 and j >= 0 and state[i][j] == -1:
                             state[i][j] = id
                         else:
+                            #cell is already taken by other regions
                             return None
                     except IndexError:
+                        #cell index is out of the board
                         return None
                         
         for m, n, area in unsolved:
             if state[m][n] != -1:
+                #cell must belong to (m, n, area) - not this one (this cell is already marked)
                 return None
+        
+        #return a new valid state
         return State(state, unsolved)
 
 
     def draw(self, regions, filename):
+        """
+        Draw a particular state given a list of regions, save image as <filename>.
+        """
         from PIL import Image, ImageFont, ImageDraw
         cell_size = 50
         cell_border = 2

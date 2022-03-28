@@ -4,43 +4,55 @@ This file contains two functions, blind_search and heuristic_search.
 
 from queue import Queue
 import heapq
-from .state import State
+from .state import *
 
 def blind_search(state):
     """
     This function solves the problem using BFS.
+    Return a goal state, if any, and the number of states explored.
     """
-    frontier = Queue()
-    frontier.put(state)
+
+    state_space = Queue()
+    state_space.put(state)
     count = 1
 
-    while not frontier.empty():
-        s = frontier.get()
+    while not state_space.empty():
+        #get the next state
+        s = state_space.get()
+
+        #checking for goal state
         if s.is_goal():
-            print("States explored: ", count)
-            return s
+            return s, count
         
+        #generate new states if not a goal state
         for i in s.next_states():
-            frontier.put(i)
+            state_space.put(i)
             count += 1
-        
-    return None
+    
+    #no solution found
+    return None, count
 
 def heuristic_search(state):
     """
     This function solves the problem by using Best First Search.
+    Return a goal state, if any, and the number of states explored.
     """
-    pq = []
-    heapq.heappush(pq, state)
+    state_space = []
+    heapq.heappush(state_space, state)
     count = 1
-    while not len(pq) == 0:
-        s = heapq.heappop(pq)
+
+    while not len(state_space) == 0:
+        #get the best state available
+        s = heapq.heappop(state_space)
+
+        #checking for goal state
         if s.is_goal():
-            print("States explored: ", count)
-            return s
+            return s, count
         
+        #generating new states if not a goal state
         for i in s.next_states():
-            heapq.heappush(pq, i)
+            heapq.heappush(state_space, i)
             count += 1
     
-    return None
+    #no solution found
+    return None, count
