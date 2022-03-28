@@ -1,0 +1,17 @@
+Puzzle size is: 5x5
+Number of regions: 11
+
+Heuristic search: 
+States explored: 34
+Time taken to solve: 0.003999471664428711
+
+Blind search: 
+States explored: 19
+Time taken to solve: 0.0020008087158203125
+
+Solution found.
+[[ 8  8  1  2  3]
+ [ 4  5  1  2  3]
+ [ 4  5  0  0  9]
+ [ 6  7  0  0  9]
+ [ 6  7 10 10  9]]

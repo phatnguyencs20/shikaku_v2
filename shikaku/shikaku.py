@@ -37,42 +37,46 @@ class Shikaku:
         
         self.initial_state = State(np.full((self.height, self.width), -1), self.regions)
         self.goal_state = None
-        self.solving_time = 0
+        self.solving_time_blind = 0
+        self.solving_time_heuristics = 0
 
         print("Puzzle loaded.\n")
 
     def draw(self, output_image):
         self.initial_state.draw(self.regions, output_image)
 
-    def solve(self, heuristic=False, info=False, log=None, output_image=None):
-        if heuristic:
-            start_time = time.time()
-            self.goal_state, states_explored = heuristic_search(self.initial_state)
-            end_time = time.time()
-            self.solving_time = end_time - start_time
-        else:
-            start_time = time.time()
-            self.goal_state, states_explored = blind_search(self.initial_state)
-            end_time = time.time()
-            self.solving_time = end_time - start_time
+    def solve(self, log=None, output_image=None):
+
+        #time tracking for heuristic search
+        start_time = time.time()
+        self.goal_state, states_explored_heuristic = heuristic_search(self.initial_state)
+        end_time = time.time()
+        self.solving_time_heuristic = end_time - start_time
+
+        #time tracking for blind search
+        start_time = time.time()
+        self.goal_state, states_explored_blind = blind_search(self.initial_state)
+        end_time = time.time()
+        self.solving_time_blind = end_time - start_time
         
         if log is not None:
             with open(log, 'w') as f:
                 f.write("Puzzle size is: " + str(len(self.initial_state.state)) + "x" + str(len(self.initial_state.state[0])) + '\n')
-                f.write("Number of regions: " + str(len(self.initial_state.actions)) + '\n')
-                f.write("States explored: " + str(states_explored) + '\n')
-                f.write("Time taken to solve: " + str(self.solving_time) + '\n')
+                f.write("Number of regions: " + str(len(self.initial_state.actions)) + '\n\n')
+
+                f.write("Heuristic search: \n")
+                f.write("States explored: " + str(states_explored_heuristic) + '\n')
+                f.write("Time taken to solve: " + str(self.solving_time_heuristic) + '\n\n')
+
+                f.write("Blind search: \n")
+                f.write("States explored: " + str(states_explored_blind) + '\n')
+                f.write("Time taken to solve: " + str(self.solving_time_blind) + '\n\n')
+
                 if self.goal_state is not None:
-                    f.write("Solution found.")
+                    f.write("Solution found.\n")
+                    f.write(str(self.goal_state.state))
                 else:
                     f.write("No solution.")
-        
-        if info:
-            print("Solving time: ", self.solving_time)
-            if self.goal_state is not None:
-                print("Solution found.")
-            else:
-                print("No solution.")
         
         if output_image is not None and self.goal_state is not None:
             self.goal_state.draw(self.regions, output_image)

@@ -50,7 +50,7 @@ def heuristic_search(state):
             return s, count
         
         #generating new states if not a goal state
-        for i in s.next_states():
+        for i in s.next_states_heuristic():
             heapq.heappush(state_space, i)
             count += 1
     

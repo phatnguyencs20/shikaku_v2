@@ -80,6 +80,30 @@ class State():
                         new_state = self.apply_to(h, w, i + action[0], j + action[1])
                         if new_state is not None:
                             yield new_state
+    
+
+    def next_states_heuristic(self):
+        """
+        This function returns a generator of new states resulting from
+        taking an action.
+        """
+        if len(self.actions) > 0:
+            index = -1
+            max_area = 0
+            for id, action in enumerate(self.actions):
+                if action[2] > max_area:
+                    max_area = action[2]
+                    index = id
+            
+            self.actions[index], self.actions[0] = self.actions[0], self.actions[index]
+            action = self.actions[0]
+
+            for h, w in State.get_rectangular_shape(action[2]):
+                for i in range(h):
+                    for j in range(w):
+                        new_state = self.apply_to(h, w, i + action[0], j + action[1])
+                        if new_state is not None:
+                            yield new_state
 
 
     def apply_to(self, height, width, x_coord, y_coord):

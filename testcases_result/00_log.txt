@@ -1,0 +1,16 @@
+Puzzle size is: 4x4
+Number of regions: 3
+
+Heuristic search: 
+States explored: 5
+Time taken to solve: 0.0
+
+Blind search: 
+States explored: 5
+Time taken to solve: 0.0
+
+Solution found.
+[[0 0 0 0]
+ [0 0 0 0]
+ [1 1 2 2]
+ [1 1 2 2]]

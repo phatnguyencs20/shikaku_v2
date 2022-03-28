@@ -1,0 +1,12 @@
+Puzzle size is: 10x10
+Number of regions: 20
+
+Heuristic search: 
+States explored: 1
+Time taken to solve: 0.006005764007568359
+
+Blind search: 
+States explored: 1
+Time taken to solve: 0.002996683120727539
+
+No solution.
