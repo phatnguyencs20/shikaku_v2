@@ -45,7 +45,7 @@ class Shikaku:
     def draw(self, output_image):
         self.initial_state.draw(self.regions, output_image)
 
-    def solve(self, log=None, output_image=None):
+    def solve(self, log=None, benchmark=None, output_image=None):
 
         #time tracking for heuristic search
         start_time = time.time()
@@ -80,3 +80,6 @@ class Shikaku:
         
         if output_image is not None and self.goal_state is not None:
             self.goal_state.draw(self.regions, output_image)
+        
+        if benchmark is not None:
+            return self.height, self.width, self.solving_time_heuristic, states_explored_heuristic, self.solving_time_blind, states_explored_blind, (self.goal_state is not None)

@@ -3,11 +3,11 @@ Number of regions: 20
 
 Heuristic search: 
 States explored: 3616
-Time taken to solve: 1.1129498481750488
+Time taken to solve: 1.1213531494140625
 
 Blind search: 
 States explored: 6461
-Time taken to solve: 1.5963430404663086
+Time taken to solve: 1.633181095123291
 
 Solution found.
 [[ 2  8  8  8  8  8  8  1  1  1]

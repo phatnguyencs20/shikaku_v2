@@ -1,0 +1,22 @@
+Puzzle size is: 10x10
+Number of regions: 15
+
+Heuristic search: 
+States explored: 1170
+Time taken to solve: 0.49037766456604004
+
+Blind search: 
+States explored: 64317
+Time taken to solve: 20.530534267425537
+
+Solution found.
+[[ 1  1 11 11 11 11  2  2 12  3]
+ [ 1  1 11 11 11 11  2  2 12  3]
+ [ 4  4  6  6  5  5  2  2 12  8]
+ [ 4  4  6  6  5  5  2  2 12  8]
+ [ 4  4  6  6  7  7  0  0 12  8]
+ [ 4  4  6  6  7  7  0  0 12  8]
+ [ 9  9  9 10 10 10  0  0 12  8]
+ [ 9  9  9 10 10 10  0  0 12  8]
+ [13 13 13 13 13 13  0  0 14  8]
+ [13 13 13 13 13 13  0  0 14  8]]

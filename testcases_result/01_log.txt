@@ -1,17 +1,16 @@
-Puzzle size is: 5x5
-Number of regions: 11
+Puzzle size is: 4x4
+Number of regions: 6
 
 Heuristic search: 
-States explored: 34
-Time taken to solve: 0.003999471664428711
+States explored: 9
+Time taken to solve: 0.0010013580322265625
 
 Blind search: 
-States explored: 19
+States explored: 13
 Time taken to solve: 0.0020008087158203125
 
 Solution found.
-[[ 8  8  1  2  3]
- [ 4  5  1  2  3]
- [ 4  5  0  0  9]
- [ 6  7  0  0  9]
- [ 6  7 10 10  9]]
+[[0 0 0 0]
+ [1 1 2 2]
+ [3 3 3 4]
+ [5 5 5 4]]

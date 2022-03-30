@@ -3,11 +3,11 @@ Number of regions: 9
 
 Heuristic search: 
 States explored: 14
-Time taken to solve: 0.002000570297241211
+Time taken to solve: 0.002000093460083008
 
 Blind search: 
 States explored: 90
-Time taken to solve: 0.01300358772277832
+Time taken to solve: 0.010998964309692383
 
 Solution found.
 [[3 3 3 1 1]

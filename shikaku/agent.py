@@ -37,6 +37,7 @@ def heuristic_search(state):
     This function solves the problem by using Best First Search.
     Return a goal state, if any, and the number of states explored.
     """
+    
     state_space = []
     heapq.heappush(state_space, state)
     count = 1
