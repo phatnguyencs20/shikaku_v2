@@ -3,11 +3,11 @@ Number of regions: 19
 
 Heuristic search: 
 States explored: 47
-Time taken to solve: 0.013997316360473633
+Time taken to solve: 0.024329423904418945
 
 Blind search: 
 States explored: 2156
-Time taken to solve: 0.4407808780670166
+Time taken to solve: 0.5664634704589844
 
 Solution found.
 [[ 3  6  1  0  0  0  0  0  0  2]

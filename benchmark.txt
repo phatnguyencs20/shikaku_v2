@@ -1,4 +1,4 @@
 Analytic information:
 
-Average time speed up: 24.7674 times
-Average states saved: 31.2563 times
+Average time speed up: 30.277 times
+Average states saved: 32.1331 times

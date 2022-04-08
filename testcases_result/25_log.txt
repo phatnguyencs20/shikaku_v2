@@ -3,10 +3,10 @@ Number of regions: 20
 
 Heuristic search: 
 States explored: 1
-Time taken to solve: 0.016193866729736328
+Time taken to solve: 0.003000020980834961
 
 Blind search: 
 States explored: 1
-Time taken to solve: 0.0040018558502197266
+Time taken to solve: 0.0030007362365722656
 
 No solution.
